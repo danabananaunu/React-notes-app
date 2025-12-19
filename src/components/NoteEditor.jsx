@@ -90,11 +90,14 @@ export default function NoteEditor({ initialNote, onSave, onCancelEdit }) {
 
         <label className="field">
           <span className="field-label">Attachments</span>
+
           <input
+            id="file-upload"
             type="file"
             multiple
+            style={{ display: "none" }}
             onChange={(e) => {
-              const selectedFiles = Array.from(e.target.files).map((file) => ({
+              const selectedFiles = Array.from(e.target.files).map(file => ({
                 name: file.name,
                 type: file.type,
                 url: URL.createObjectURL(file),
@@ -102,6 +105,18 @@ export default function NoteEditor({ initialNote, onSave, onCancelEdit }) {
               setAttachments(selectedFiles);
             }}
           />
+
+          <label htmlFor="file-upload" className="btn btn-secondary">
+            Choose files
+          </label>
+
+          {attachments.length > 0 && (
+            <ul style={{ marginTop: "8px", fontSize: "13px" }}>
+              {attachments.map((file, index) => (
+                <li key={index}>{file.name}</li>
+              ))}
+            </ul>
+          )}
         </label>
 
         <div className="editor-actions">
